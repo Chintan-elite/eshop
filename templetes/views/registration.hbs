@@ -44,8 +44,8 @@
         <div class="row px-xl-5">
             <div class="col-lg-5 m-auto mb-5">
                 <div class="contact-form">
-                    <div id="success"></div>
-                    <form  novalidate="novalidate">
+                    <div class="text-success">{{msg}}</div>
+                    <form  novalidate="novalidate" action="do_register" method="post">
                         <div class="control-group">
                             <input type="text" class="form-control" id="uname" placeholder="Enter username"
                                 required="required" data-validation-required-message="Please enter your username" name="uname" />
