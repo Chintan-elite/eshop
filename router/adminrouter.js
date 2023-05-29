@@ -2,6 +2,26 @@ const router = require("express").Router()
 const Admin = require("../model/admins")
 const jwt = require("jsonwebtoken")
 const aauth = require("../middleware/adminauth")
+const multer = require("multer")
+
+const storage = multer.diskStorage({    
+    destination: function (req, file, cb)
+    {
+
+       cb(null, "./public/productimg")
+   },
+   filename: function (req, file, cb) {
+     cb(null, file.fieldname + "-" + Date.now()+".jpg")
+   }
+ })
+
+
+var upload = multer({
+   storage: storage 
+})
+
+
+
 
 
 router.get("/dashboard",aauth,(req,resp)=>{
@@ -72,14 +92,45 @@ router.post("/add_category",aauth,async(req,resp)=>{
 })
 
 //************************products***************** */
+const Product = require("../model/products")
 router.get("/products",aauth,async(req,resp)=>{
     try {
         const data = await Category.find()
-        resp.render("products",{catdata:data})
+        const prod = await Product.aggregate([{$lookup:{from:"categories",localField:"catid", foreignField:"_id", as:"category"}}])
+        resp.render("products",{catdata:data,proddata:prod})
     } catch (error) {
-        
+        console.log(error);
     }
 })
+
+router.post("/add_product",upload.single("file"),async(req,resp)=>{
+    try {
+        const prod = new Product({
+            catid : req.body.catid,
+            pname : req.body.pname,
+            price: req.body.price,
+            qty : req.body.qty,
+            img : req.file.filename
+        })
+        await prod.save();
+        resp.redirect("products")
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+//************************usuers */
+const User = require("../model/users")
+router.get("/viewusers",async(req,resp)=>{
+    try {
+        const users = await User.find()
+        resp.render("users",{userdata : users})
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+
 
 
 

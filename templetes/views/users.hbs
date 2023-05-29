@@ -81,101 +81,30 @@
                 <!-- Start Page Content -->
                 <!-- ============================================================== -->
                 <!-- Row -->
-                <div class="row">
-                    <!-- Column -->
-                 
-                    <!-- Column -->
-                    <!-- Column -->
-                    <div class="col-lg-8 col-xlg-9 col-md-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <form class="form-horizontal form-material" action="add_product" method="post" enctype="multipart/form-data">
-                                    <div class="form-group mb-4">
-                                        <label class="col-md-12 p-0">Category Name</label>
-                                        <div class="col-md-12 border-bottom p-0">
-                                            
-                                                <select name="catid" id=""  class="form-control p-0 border-0">
-                                                        {{#each catdata}}
-                                                        <option value="{{this._id}}">{{this.catname}}</option>
-                                                        {{/each}}
-                                                </select>
-                                    </div>
-
-                                     <div class="form-group mb-4">
-                                        <label class="col-md-12 p-0">Product Name</label>
-                                        <div class="col-md-12 border-bottom p-0">
-                                            <input type="text"
-                                                class="form-control p-0 border-0" name="pname"> </div>
-                                    </div>
-
-                                     <div class="form-group mb-4">
-                                        <label class="col-md-12 p-0">Price</label>
-                                        <div class="col-md-12 border-bottom p-0">
-                                            <input type="text"
-                                                class="form-control p-0 border-0" name="price"> </div>
-                                    </div>
-
-                                     <div class="form-group mb-4">
-                                        <label class="col-md-12 p-0">Qty</label>
-                                        <div class="col-md-12 border-bottom p-0">
-                                            <input type="text"
-                                                class="form-control p-0 border-0" name="qty"> </div>
-                                    </div>
-
-                                     <div class="form-group mb-4">
-                                        <label class="col-md-12 p-0">Image</label>
-                                        <div class="col-md-12 border-bottom p-0">
-                                            <input type="file"
-                                                class="form-control p-0 border-0" name="file"> </div>
-                                    </div>
-                                  
-                                   
-                                    
-                                  
-                                    <div class="form-group mb-4">
-                                        <div class="col-sm-12">
-                                            <button class="btn btn-success" type="submit">Add Product</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Column -->
-                </div>
+              
 
                   <div class="row">
                     <div class="col-sm-12">
                         <div class="white-box">
-                            <h3 class="box-title">Products</h3>
+                            <h3 class="box-title">Users</h3>
                          
                             <div class="table-responsive">
                                 <table class="table text-nowrap">
                                     <thead>
                                         <tr>
-                                            <th class="border-top-0">Category Name</th>
-                                            <th class="border-top-0">Product Name</th>
-                                            <th class="border-top-0">Price</th>
-                                            <th class="border-top-0">Qty</th>
-                                            <th class="border-top-0">Image</th>
-                                            <th class="border-top-0" colspan="2">Action</th>
+                                            <th class="border-top-0">Username</th>
+                                              <th class="border-top-0">Email</th>
+                                                <th class="border-top-0">Phone</th>
+                                         
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{#each proddata}}
+                                        {{#each userdata}}
                                         <tr>
-                                            {{#each this.category}}
-                                              <td>{{this.catname}}</td>
-                                            {{/each}}
-                                            <td>{{this.pname}}</td>
-                                            <td>{{this.price}}</td>
-                                            <td>{{this.qty}}</td>
-                                            <td><img src="productimg/{{this.img}}" alt="" height="30px" width="30px"></td>
-
-
-                                            <td>edit</td>
-                                            <td>delete</td>
-                                          
+                                            <td>{{this.uname}}</td>
+                                             <td>{{this.email}}</td>
+                                              <td>{{this.phone}}</td>
+                                       
                                         </tr>
                                        {{/each}}
                                      
