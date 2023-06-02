@@ -23,6 +23,21 @@
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+
+<script>
+
+    function addtocart(value)
+    {
+
+        $.get("/add_cart",{pid:value},function(rt){
+            alert(rt)
+        })
+
+    }
+
+</script>
+
+
 </head>
 
 <body>
@@ -87,7 +102,7 @@
                     </div>
                     <div class="card-footer d-flex justify-content-between bg-light border">
                         <a href="details?pid={{this._id}}" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                        <a href="add_cart?pid={{this._id}}" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                        <button onclick="addtocart('{{this._id}}')" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</button>
                     </div>
                 </div>
             </div>
