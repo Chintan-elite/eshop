@@ -172,4 +172,97 @@ router.get("/changeQty",async(req,resp)=>{
     }
 })
 
+//*********************************** */
+const Order = require("../model/orders")
+const Razorpay = require('razorpay');
+var nodemailer = require('nodemailer');
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'chintan.tops@gmail.com',
+      pass: 'cgkcbpcdrronqerr'
+    }
+  });
+var instance = new Razorpay({ key_id: 'rzp_test_9FeUGJy3Jq9kRB', key_secret: 'AkcTe1lZFkpyId365nAUgBUm' })
+
+
+
+router.get("/makepayment", async(req,resp)=>{
+
+    const amt =Number(req.query.amt)
+try {
+    
+    var order = await instance.orders.create({
+        amount: amt*100,
+        currency: "INR",
+        receipt: "order_rcptid_11"
+    })
+    
+    resp.send(order)
+} catch (error) {
+
+console.log(error);
+}
+
+
+})
+
+router.get("/order",auth,async(req,resp)=>{
+  
+    const payid = req.query.pid
+    const uid = req.user._id
+    try {
+        
+        const cartProds = await Cart.find({uid:uid})
+
+        var productAry = [];
+        var sum = 0;
+        var rows= "";
+        for(var i=0;i<cartProds.length;i++)
+        {
+            sum = sum + cartProds[i].total
+            const pdata = await Product.findOne({_id:cartProds[i].pid})
+            productAry[i] = 
+                {
+                    pname : pdata.pname,
+                    qty : cartProds[i].qty,
+                    price : cartProds[i].price
+
+                }  
+            
+                rows = rows+"<tr><td>"+pdata.pname+"</td><td>"+cartProds[i].qty+"</td><td>"+cartProds[i].price+"</td><td>"+cartProds[i].total+"</td></tr>"
+        }
+
+        var ttl = "<tr><td></td><td></td><td></td><td>"+sum+"</td></tr>"
+       
+
+        const order = new Order({uid:uid, payid:payid,products:productAry,total : sum})
+        await order.save()
+
+        const udata = await User.findOne({_id:uid})
+
+        var mailOptions = {
+            from: 'chintan.tops@gmail.com',
+            to: udata.email,
+            subject: 'Order confirmation',
+            html: " <table><tr><th>Productname</th><th>Price</th><th>Qty</th><th>total</th></tr>"+rows+ttl+"</table>"
+          };
+
+          await transporter.sendMail(mailOptions)
+
+
+        await Cart.deleteMany({uid:uid})
+        resp.send("order confirmed !!!")
+
+
+    } catch (error) {
+        console.log(error);
+    }
+
+
+
+
+})
+
+
 module.exports=router

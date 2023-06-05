@@ -23,6 +23,29 @@
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+
+    <script>
+
+        function validation()
+        {
+                var signup = document.getElementById("sendMessageButton")
+                var uname = document.getElementById("uname")
+               var unameerr = document.getElementById("unameerr")
+               if(uname.value=="" || uname.value==null)
+                {
+                         uname.style.border="2px solid red"
+                        unameerr.innerHTML="username shouldnot be blank"
+                        signup.disabled=true
+                }
+                else
+                {
+                    uname.style.border="2px solid black"
+                    unameerr.innerHTML=""
+                     signup.disabled=false
+                }
+        }
+
+    </script>
 </head>
 
 <body>
@@ -48,8 +71,8 @@
                     <form  novalidate="novalidate" action="do_register" method="post">
                         <div class="control-group">
                             <input type="text" class="form-control" id="uname" placeholder="Enter username"
-                                required="required" data-validation-required-message="Please enter your username" name="uname" />
-                            <p class="help-block text-danger"></p>
+                                required="required" data-validation-required-message="Please enter your username" name="uname" onkeyup="validation()"/>
+                            <p class="help-block text-danger" id="unameerr"></p>
                         </div>
                          <div class="control-group">
                             <input type="text" class="form-control" id="email" placeholder="Enter Email"

@@ -130,6 +130,17 @@ router.get("/viewusers",async(req,resp)=>{
     }
 })
 
+//*******************************orders***** */
+const Order = require("../model/orders")
+router.get("/vieworders",async(req,resp)=>{
+   try {
+    const oderdata = await Order.find();
+    resp.render("orders",{orderdata:oderdata})
+
+   } catch (error) {
+    console.log(error);
+   }
+})
 
 
 
